@@ -1,0 +1,48 @@
+body{
+	background-color: #ffe695;
+}
+
+.form-control{
+	border: 0px;
+	border-radius: 0px;
+}
+
+.panel-default{
+	border: 2px solid #d3d3d3;
+	border-radius: 0px;
+}
+
+.place, .place:hover{
+	font-size: 20px;
+	padding-right: 10px;
+	color: black;
+}
+
+.area{
+	color: #d3d3d3;
+}
+
+.review{
+	font-size: 11px;
+}
+
+.type{
+	font-size: 12px;
+}
+
+.pop-button{
+	border: 1px solid #d3d3d3;
+	border-radius: 0px;
+}
+
+.pop-text{
+	border: 1px solid #d3d3d3;
+}
+
+.break{
+	border-color: white;
+}
+
+.review-star{
+	font-size: 15px;
+}

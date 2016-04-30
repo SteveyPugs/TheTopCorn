@@ -1,0 +1,78 @@
+<div class="container" ng-controller="NewLocation"> 
+	{{>header}}
+	<h3>New Location</h3>
+	<hr class="break">
+	<form name="AddLocation">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="form-group">
+					<label>Name</label>
+					<input type="text" class="form-control input-sm" ng-model="LocationName" required>
+				</div>
+				<div class="form-group">
+					<label>City</label>
+					<input type="text" class="form-control input-sm" ng-model="LocationCity" required>
+				</div>
+				<div class="form-group">
+					<label>Type of Location</label>
+					<select class="form-control input-sm" ng-model="LocationTypeID" required>
+						<option value=""></option>
+						{{#each dropdowns.locationtypes}}
+						<option value="{{this.LocationTypeID}}">{{this.LocationType}}</option>
+						{{/each}}
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Price Level</label>
+					<select class="form-control input-sm" ng-model="PriceLevelID" required>
+						<option value=""></option>
+						{{#each dropdowns.pricelevels}}
+						<option value="{{this.PriceLevelID}}">{{this.PriceLevel}}</option>
+						{{/each}}
+					</select>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="form-group">
+					<label>Address</label>
+					<input type="text" class="form-control input-sm" ng-model="LocationAddress" required>
+				</div>
+				<div class="form-group">
+					<label>State</label>
+					<select class="form-control input-sm" ng-model="LocationState" required>
+						<option value=""></option>
+						{{#each states}}
+						<option value="{{this.abbr}}">{{this.name}}</option>
+						{{/each}}
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Environment</label>
+					<select class="form-control input-sm" ng-model="EnvironmentTypeID" required>
+						<option value=""></option>
+						{{#each dropdowns.environmenttypes}}
+						<option value="{{this.EnvironmentTypeID}}">{{this.EnvironmentType}}</option>
+						{{/each}}
+					</select>
+				</div>
+			</div>		
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<br>
+				<div class="form-group">
+					<label>Flavors</label>
+					<div id="flavors"></div>
+				</div>
+				<div class="form-group">
+					<label>Rating</label>
+					<div><uib-rating ng-model="LocationRating" max="5" state-on="'glyphicon-star review-star'" state-off="'glyphicon-star-empty review-star'"></uib-rating></div>
+				</div>
+				<textarea class="form-control input-sm" rows="10" ng-model="LocationReview" required></textarea>
+			</div>
+		</div>
+		<br>
+		<button type="submit" class="btn btn-success btn-md btn-block" ng-disabled="AddLocation.$invalid" ng-click="addLocation()">Create</button>
+	</form>
+</div>
+<script src="newlocation.controller.js"></script>

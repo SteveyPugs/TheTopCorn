@@ -1,0 +1,17 @@
+<form name="RegisterForm">
+	<div class="modal-header">
+		<h3 class="modal-title">New Account</h3>
+	</div>
+	<div class="modal-body">
+		<div class="form-group">
+			<input type="email" class="form-control" required ng-model="NewEmailAddress" placeholder="Email Address">
+		</div>
+		<div class="form-group">
+			<input type="password" class="form-control" required ng-model="NewPassword" placeholder="Password">
+		</div>
+		<div class="form-group">
+			<input type="text" class="form-control" required ng-model="NewFullName" placeholder="Your Name">
+		</div>
+		<button class="btn btn-success btn-sm btn-block" type="button" ng-disabled="RegisterForm.$invalid" ng-click="ok()">Register</button>
+	</div>
+<form>
