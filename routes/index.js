@@ -2,14 +2,105 @@ var express = require("express");
 var bcrypt = require("bcrypt");
 var async = require("async");
 var lodash = require("lodash");
+var Sequelize = require("sequelize");
 var us = require("us")
 var cookieParser = require("cookie-parser");
+var distance = require("google-distance");
 var router = express.Router();
 router.use(cookieParser("PoPcOrN"));
 var models = require("../models");
+
 router.get("/", function(req, res){
-	res.render("index", {
-		cookie: req.cookies.User
+	models.Location.findAll({
+		where:{
+			deletedAt: null
+		},
+		attributes: ["LocationID","LocationName","LocationCity","LocationState"],
+		raw: true,
+		include: [{
+			model: models.LocationType,
+			where: {
+				LocationTypeID: Sequelize.col("LocationType.LocationTypeID")
+			},
+			attributes: ["LocationType"]
+		}]
+	}).then(function(locations){		
+		async.parallel({
+			reviews: function(callback){
+				models.Review.findAll({
+					where:{
+						deletedAt: null
+					},
+					raw: true,
+				}).then(function(reviews){
+					callback(null, reviews);
+				}).catch(function(err){
+					res.send(err);
+				});
+			},
+			flavors: function(callback){
+				models.LocationFlavor.findAll({
+					where:{
+						deletedAt: null
+					},
+					raw: true,
+				}).then(function(flavors){
+					callback(null, flavors);
+				}).catch(function(err){
+					res.send(err);
+				});
+			}
+		}, function(err, results){
+			if(err) res.send(err);
+			lodash.forEach(locations, function(l){
+				var reviewCount = 0;
+				var reviewPoints = 0;
+				lodash.filter(results.reviews, function(r){
+					if(l.LocationID === r.LocationID){
+						reviewCount ++;
+						reviewPoints += r.ReviewRating;
+					}
+				});
+				var latestReview = lodash.find(lodash.orderBy(results.reviews, ["createdAt"], ["desc"]), function(r){
+					if(l.LocationID === r.LocationID){
+						return true;
+					}
+				});
+				l.LatestReview = latestReview.ReviewText;
+				l.LatestReviewUserID = latestReview.UserID;
+				l.ReviewRating = reviewPoints / reviewCount;
+				l.ReviewCount = reviewCount;
+			});
+			async.eachSeries(locations, function(l, eachLocation){
+				l.LocationLength = 9999999999;
+				if(req.cookies.User){
+					if(req.cookies.User.UserCity && req.cookies.User.UserState){
+						distance.get({
+							origin: req.cookies.User.UserCity + ", " + req.cookies.User.UserState,
+							destination: l.LocationCity + ", " + l.LocationState
+						}, function(err, data){
+							if(err) eachLocation(err);
+ 							l.LocationLength = data.durationValue;
+							eachLocation();
+						});
+					}
+					else{
+						eachLocation();
+					}
+				}
+				else{
+					eachLocation();
+				}
+			}, function(err){
+				if(err) res.send(err);
+				res.render("index", {
+					cookie: req.cookies.User,
+					locations: lodash.orderBy(locations, ["LocationLength", "ReviewCount", "ReviewRating"], ["asc", "desc", "desc"])
+				});
+			});
+		});
+	}).catch(function(err){
+		res.send(err);
 	});
 });
 
@@ -140,6 +231,8 @@ router.post("/login", function(req, res){
 	 			res.cookie("User", {
 	 				UserID: user.UserID,
 	 				UserFullName: user.UserFullName,
+	 				UserCity: user.UserCity,
+	 				UserState: user.UserState,
 	 			}, {
 	 				expires: new Date(Date.now() + 14400000)
 	 			});

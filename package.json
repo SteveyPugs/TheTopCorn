@@ -10,6 +10,8 @@
     "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
     "express-handlebars": "^3.0.0",
+    "google-distance": "^1.0.1",
+    "handlebars": "^4.0.5",
     "lodash": "^4.9.0",
     "mysql": "^2.10.2",
     "sequelize": "^3.21.0",

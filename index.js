@@ -1,6 +1,7 @@
 var config = require("./config");
 var express = require("express");
 var exphbs = require("express-handlebars");
+var handlebars = require('handlebars');
 var bodyParser = require("body-parser");
 var app = express();
 app.use(bodyParser.json());
@@ -13,7 +14,19 @@ app.use("/", routes);
 app.engine(".html", exphbs({
 	defaultLayout: "main",
 	extname: ".html",
-	partialsDir: "views/partials/"
+	partialsDir: "views/partials/",
+	helpers: {
+        rating: function(context, options){
+        	var rating = "";
+			for(var i = 1, j = context; i <= j; i++) {
+				rating = rating + "&nbsp;<span class='glyphicon glyphicon-star aria-hidden='true'></span>";
+			}
+			for(var i = 1, j = 5 - context; i <= j; i++) {
+				rating = rating + "&nbsp;<span class='glyphicon glyphicon-star-empty' aria-hidden='true'></span>";
+			}
+			return new handlebars.SafeString(rating);
+        }
+    }
 }));
 app.set("view engine", ".html");
 app.listen(config.server.port, config.server.host, function(){
