@@ -4,6 +4,8 @@ var exphbs = require("express-handlebars");
 var handlebars = require("handlebars");
 var bodyParser = require("body-parser");
 var moment = require("moment");
+var http = require("http");
+var https = require("https");
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -34,6 +36,15 @@ app.engine(".html", exphbs({
 	}
 }));
 app.set("view engine", ".html");
-app.listen(config.server.port, config.server.host, function(){
-	console.log("http://" + config.server.host + ":" + config.server.port);
-});
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(config.server.certs, app);
+if(config.server.tls){
+	httpsServer.listen(config.server.port, config.server.host, function(){
+		console.log("https://" + config.server.host + ":" + config.server.port);
+	});
+}
+else{
+	httpServer.listen(config.server.port, config.server.host, function(){
+		console.log("http://" + config.server.host + ":" + config.server.port);
+	});
+}

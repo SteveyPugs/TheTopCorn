@@ -1,7 +1,13 @@
 var config = {
 	server: {
 		host: "localhost",
-		port: 3000
+		port: 443,
+		tls: true,
+		certs: {
+			key: fs.readFileSync("file", "utf8"),
+			cert: fs.readFileSync("file", "utf8"),
+			ca: fs.readFileSync("file", "utf8")
+		}
 	},
 	database:{
 		host: "localhost",
