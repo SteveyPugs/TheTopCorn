@@ -51,7 +51,10 @@ router.get("/locations", function(req, res){
 				}
 				else{
 					if(geoip.lookup(req.headers['x-forwarded-for'] || req.connection.remoteAddress)){
-						callback(null, geoip.lookup(req.headers['x-forwarded-for'] || req.connection.remoteAddress));
+						callback(null, {
+							latitude: geoip.lookup(req.headers['x-forwarded-for'] || req.connection.remoteAddress).ll[0],
+							longitude: geoip.lookup(req.headers['x-forwarded-for'] || req.connection.remoteAddress).ll[1]
+						});
 					}
 					else{
 						geocoder.geocode("New York, NY").then(function(geo){
