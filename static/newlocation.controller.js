@@ -1,4 +1,4 @@
-app.controller("NewLocation", function($scope, $http, $window, $timeout, $interval){
+app.controller("NewLocation", function($scope, $http, $window){
 	var flavors = $("#flavors").magicSuggest({
 		data: "/flavors",
 		placeholder: "Add your own flavors or choose from the list"

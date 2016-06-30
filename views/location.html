@@ -1,0 +1,91 @@
+<div class="container" ng-controller="ViewLocation">
+	{{>header}}
+	<div class="row">
+		<div class="col-lg-4">
+			<p class="heading">{{location.LocationName}} <span class="review-indiv">{{rating location.ReviewRating}}</span></p>
+			<p>{{location.LocationAddress}}, {{location.LocationCity}}, {{location.LocationState}} </p>
+			
+		</div>
+		<div class="col-lg-8 text-right">
+			<button class="btn btn-info" ngf-select="uploadPicture($file)"><i class="fa fa-camera-retro fa-3x" aria-hidden="true"></i></button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-4">
+			<div class="well well-sm">
+				<ng-map zoom="16" style="height:200px" disable-default-u-i="true" draggable="false" dragging-cursor="move" center="{{location.LocationAddress}} {{location.LocationCity}}, {{location.LocationState}}">
+					<marker position="{{location.LocationAddress}} {{location.LocationCity}}, {{location.LocationState}}" title="You are here" centered="true"></marker>
+				</ng-map>
+			</div>
+		</div>
+		<div class="col-lg-8">
+			<div class="row">
+				{{#unless pictures}}
+					<div class="col-lg-12 text-center"><h2>No Pictures</h2></div>
+				{{/unless}}
+				{{#each pictures}}
+					<div class="col-lg-4"><a href="#" ng-click="open('{{LocationImageGUID}}')" class="thumbnail"><img class="thumbnail-picture" src="/location/photo/{{LocationImageGUID}}/thumbnail"></a></div>
+				{{/each}}
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-4">
+			<table class="table table-bordered poptable">
+				<tr>
+					<th>Type of Location</th>
+					<th>Price</th>
+					<th>Environment</th>
+				</tr>
+				<tr>
+					<td>{{location.[LocationType.LocationType]}}</td>
+					<td>{{location.[PriceLevel.PriceLevel]}}</td>
+					<td>{{location.[EnvironmentType.EnvironmentType]}}</td>
+				</tr>
+				<tr>
+					<th colspan="3">Flavors</th>
+				</tr>
+				<tr>
+					<td colspan="3">
+					{{#each flavors}}
+						{{#if @first}}{{this.LocationFlavor}},{{/if}}
+						{{#if @last}}{{this.LocationFlavor}}{{/if}}
+					{{/each}}
+					</td>
+				</tr>
+			</table>
+		</div>
+		{{#if morethenthree}}
+		<div class="col-lg-8">
+			<a href="/location/{{location.LocationID}}/photos" class="btn btn-block btn-info btn-sm">More Photos ({{photocount}})</a> 
+		</div>
+		{{/if}}
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<p class="heading">Reviews <small>({{location.ReviewCount}})</small> <a class="btn btn-link btn-xs" href="/location/{{location.LocationID}}/add-review">Add Review</a></p>
+			{{#each reviews}}
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-lg-2"><a href="/user/{{UserID}}"><img src="/img/silo.png" alt="silo" class="img-rounded"></a></div>
+							<div class="col-lg-10 text-right">
+								{{'User.UserName'}}<br>
+								<small>{{'User.UserCity'}}, {{'User.UserState'}}</small>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body">
+						<span class="review-indiv">{{rating ReviewRating}}</span>
+						<br><br>
+						{{ReviewText}}
+						<br><br>
+						{{dateFormat createdAt format="MM-DD-YYYY hh:mm a"}}
+					</div>
+				</div>
+			{{/each}}
+
+		</div>
+	</div>
+</div>
+<script src="/location.controller.js"></script>

@@ -22,6 +22,9 @@ module.exports = function(sequelize, DataTypes){
 		},
 		UserFullName: {
 			type: DataTypes.STRING,
+		},
+		UserName: {
+			type: DataTypes.STRING,
 		}
 	}, {
 		freezeTableName: true,

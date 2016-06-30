@@ -25,6 +25,14 @@ module.exports = function(sequelize, DataTypes){
 		CreatedByUserID: {
 			type: DataTypes.INTEGER,
 			allowNull: false
+		},
+		LocationLongitude: {
+			type: DataTypes.FLOAT,
+			allowNull: false
+		},
+		LocationLatitude: {
+			type: DataTypes.FLOAT,
+			allowNull: false
 		}
 	}, {
 		freezeTableName: true,

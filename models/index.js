@@ -28,6 +28,9 @@ var models = [{
 },{
 	name: "LocationFlavor",
 	file: "locationflavor"
+},{
+	name: "LocationImage",
+	file: "locationImage"
 }];
 
 models.forEach(function(model) {
@@ -53,6 +56,12 @@ sequelize.authenticate().then(function(err){
 			foreignKey: "LocationID"
 		});
 		model.LocationFlavor.belongsTo(model.Location, {
+			foreignKey: "LocationID"
+		});
+		model.LocationImage.belongsTo(model.User, {
+			foreignKey: "UserID"
+		});
+		model.LocationImage.belongsTo(model.Location, {
 			foreignKey: "LocationID"
 		});
 		sequelize.sync({
@@ -93,6 +102,8 @@ sequelize.authenticate().then(function(err){
 								LocationType: "Beach / Boardwalk"
 							},{
 								LocationType: "Specialty Shop"
+							},{
+								LocationType: "Movie Theater"
 							}]).then(function(locationtypes){
 								console.log("Location Types added");
 								callback(null, null);

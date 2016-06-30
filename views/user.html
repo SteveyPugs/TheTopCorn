@@ -1,0 +1,38 @@
+<div class="container" ng-controller="ViewUser">
+	{{>header}}
+	<div class="row">
+		<div class="col-lg-4">
+			<h3>{{user.UserName}}</h3>
+			<h6>{{user.UserCity}}, {{user.UserState}}</h6>
+			<div class="well well-sm">
+				<img src="/img/silo_pop.jpg" class="img-rounded img-responsive">
+			</div>
+			Member Since: <i>{{dateFormat user.createdAt format="MMMM, Do YYYY"}}</i>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-lg-12">
+			<p class="heading">User Reviews</p>
+			{{#each reviews}}
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-lg-12">
+								<a href="/location/{{LocationID}}">{{LocationName}}</a>
+							</div>
+						</div>
+					</div>
+					<div class="panel-body">
+						<span class="review-indiv">{{rating ReviewRating}}</span>
+						<br><br>
+						{{ReviewText}}
+						<br><br>
+						{{dateFormat createdAt format="MM-DD-YYYY hh:mm a"}}
+					</div>
+				</div>
+			{{/each}}
+		</div>
+	</div>
+</div>
+<script src="/user.controller.js"></script>

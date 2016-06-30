@@ -8,6 +8,12 @@ var config = {
 		username: "username",
 		password: "password",
 		database: "database"
+	},
+	google:{
+		key: "KEY"
+	},
+	images:{
+		storage: "/storage"
 	}
 };
 

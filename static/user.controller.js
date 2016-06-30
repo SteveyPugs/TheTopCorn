@@ -1,0 +1,1 @@
+app.controller("ViewUser", function($scope){});
