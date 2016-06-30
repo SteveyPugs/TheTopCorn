@@ -30,7 +30,7 @@ var models = [{
 	file: "locationflavor"
 },{
 	name: "LocationImage",
-	file: "locationImage"
+	file: "locationimage"
 }];
 
 models.forEach(function(model) {
