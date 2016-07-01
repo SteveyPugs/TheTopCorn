@@ -48,7 +48,7 @@
 				<tr>
 					<td colspan="3">
 					{{#each flavors}}
-						{{#if @first}}{{this.LocationFlavor}},{{/if}}
+						{{#unless @last}}{{this.LocationFlavor}}, {{/unless}}
 						{{#if @last}}{{this.LocationFlavor}}{{/if}}
 					{{/each}}
 					</td>
