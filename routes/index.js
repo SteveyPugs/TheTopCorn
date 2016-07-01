@@ -644,7 +644,14 @@ router.post("/login", function(req, res){
 	 			}, {
 	 				expires: new Date(Date.now() + 14400000)
 	 			});
-	 			req.query.i === "page" ? res.redirect("/") : res.send(true);
+	 			models.UserLoginLog.create({
+	 				UserID: user.UserID,
+	 				UserLoginLogIP: req.ip
+	 			}).then(function(createduserloginlog){
+	 				req.query.i === "page" ? res.redirect("/") : res.send(true);
+	 			}).catch(function(err){
+	 				res.send(err);
+	 			});	 			
 	 		}
 	 		else{
 	 			req.query.i === "page" ? res.redirect("/login#failure") : res.send(false);

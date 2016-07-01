@@ -31,6 +31,9 @@ var models = [{
 },{
 	name: "LocationImage",
 	file: "locationimage"
+},{
+	name: "UserLoginLog",
+	file: "userloginlog"
 }];
 
 models.forEach(function(model) {
@@ -63,6 +66,9 @@ sequelize.authenticate().then(function(err){
 		});
 		model.LocationImage.belongsTo(model.Location, {
 			foreignKey: "LocationID"
+		});
+		model.UserLoginLog.belongsTo(model.User, {
+			foreignKey: "UserID"
 		});
 		sequelize.sync({
 			force: false
