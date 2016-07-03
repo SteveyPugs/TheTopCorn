@@ -51,4 +51,30 @@ app.controller("Home", function($scope, $http, $window, $location, $interval, $h
 		$scope.search.o = $scope.search.o + v;
 		$scope.getLocations();
 	};
+	$scope.getLocation = function(){
+		var geocoder = new google.maps.Geocoder();
+		if(navigator.geolocation){
+			navigator.geolocation.getCurrentPosition(function(position){
+				var pos = {
+					lat: position.coords.latitude,
+					lng: position.coords.longitude
+				};
+				var latlng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+				geocoder.geocode({
+					"latLng": latlng
+				}, function(results, status){
+					if(status === google.maps.GeocoderStatus.OK){
+						$scope.search.l = results[0].address_components[2].long_name + ", " + results[0].address_components[4].short_name;
+						$scope.getLocations();
+					}
+				});
+			}, function(){
+				console.log(err);
+			});
+		}
+		else{
+			console.log(err);
+		}
+	}
+	$scope.getLocation();
 });
