@@ -23,6 +23,7 @@ var lwip = require("lwip");
 var mime = require("mime");
 var nodemailer = require("nodemailer");
 var transporter = nodemailer.createTransport();
+var Chance = require("chance");
 
 router.get("/", function(req, res){
 	res.render("index", {
@@ -727,6 +728,48 @@ router.get("/search-attributes", function(req, res){
 		if(err) res.send(err);
 		res.send(results);
 	});
+});
+
+router.post("/forgot-password-step-1", function(req, res){
+	models.User.find({
+		where: {
+	 		UserEmail: req.body.UserEmail,
+	 		deletedAt: null
+ 		}
+ 	}).then(function(user){
+ 		if(user){
+ 			var chance = new Chance();
+			var rando = chance.string({
+				length: 10,
+				pool: "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			});
+	 		models.User.update({
+	 			UserPassword: bcrypt.hashSync(rando, bcrypt.genSaltSync(10)),
+	 		},{
+	 			where:{
+	 				UserID: user.UserID
+	 			}
+	 		}).then(function(updateduser){
+				transporter.sendMail({
+					from: "no-reply@thetopcorn.com",
+					to: req.body.UserEmail,
+					subject: "Password Has Been Reset",
+					html: "Your password has been reset to: <br><br><b>" & rando & "</b>"
+				}, function(err, info){
+					if(err) console.log(err);
+					else console.log(info);
+					res.send(true);
+				});
+	 		}).catch(function(err){
+	 			res.send(err);
+	 		});
+ 		}
+ 		else{
+ 			res.send(true);
+ 		}
+ 	}).catch(function(err){
+ 		res.send(err);
+ 	});
 });
 
 module.exports = router;

@@ -91,14 +91,33 @@ app.controller("Nav", function($scope, $uibModal, $http, $window){
 							$window.location.reload();
 						}
 						else{
-							console.log(valid);
+							$("#WrongEmailAndPassword").removeClass("hide");
 						}
 					}).error(function(err){
+						console.log(err);
 					});
 				};
 			},
-			size: size,
-			resolve:{}
+			size: size
+		});
+	};
+	$scope.forgot = function(size){
+		var forgotModal = $uibModal.open({
+			animation: true,
+			templateUrl: "/modals/forgot.html",
+			controller: function($scope, $uibModalInstance){
+				$scope.cancel = function(){$uibModalInstance.dismiss("cancel")};
+				$scope.ok = function(){
+					$http.post("/forgot-password-step-1", {
+						UserEmail: $scope.UserEmail
+					}).success(function(valid){
+						$uibModalInstance.dismiss("cancel");
+					}).error(function(err){
+						console.log(err);
+					});
+				};
+			},
+			size: size
 		});
 	};
 	$scope.types = "['(cities)']";

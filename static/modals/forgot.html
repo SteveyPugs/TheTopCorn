@@ -1,0 +1,20 @@
+<form name="ForgotForm">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-lg-12">
+				<label>If you have forgotten your password enter your email address and if your email address is on file an email will be sent to reset your password.</label>
+			</div>
+		</div>
+		<br>
+		<div class="form-group">
+			<input type="email" class="form-control input-sm" required ng-model="UserEmail" placeholder="Email Address">
+		</div>
+		<div class="row">
+			<div class="col-lg-12"><button class="btn btn-success btn-sm btn-block" type="button" ng-disabled="ForgotForm.$invalid" ng-click="ok()">Send</button></div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-lg-12"><button class="btn btn-danger btn-sm btn-block" type="button" ng-click="cancel()">Cancel</button></div>
+		</div>
+	</div>
+<form>
