@@ -21,6 +21,10 @@ var config = {
 	},
 	images:{
 		storage: "/storage"
+	},
+	ses:{
+		accessKeyId: "accessKeyId",
+		secretAccessKey: "secretAccessKey",
 	}
 };
 

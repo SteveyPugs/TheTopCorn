@@ -22,7 +22,13 @@ var upload = multer({
 var lwip = require("lwip");
 var mime = require("mime");
 var nodemailer = require("nodemailer");
-var transporter = nodemailer.createTransport();
+var sesTransport = require("nodemailer-ses-transport");
+var transport = nodemailer.createTransport(sesTransport({
+    accessKeyId: config.ses.accessKeyId,
+    secretAccessKey: config.ses.secretAccessKey,
+    rateLimit: 5
+}));
+
 var Chance = require("chance");
 
 router.get("/", function(req, res){
