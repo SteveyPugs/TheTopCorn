@@ -23,7 +23,7 @@ var lwip = require("lwip");
 var mime = require("mime");
 var nodemailer = require("nodemailer");
 var sesTransport = require("nodemailer-ses-transport");
-var transport = nodemailer.createTransport(sesTransport({
+var transporter = nodemailer.createTransport(sesTransport({
     accessKeyId: config.ses.accessKeyId,
     secretAccessKey: config.ses.secretAccessKey,
     rateLimit: 5
