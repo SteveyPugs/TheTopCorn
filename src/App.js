@@ -6,8 +6,8 @@ import './App.css';
 import axios from "axios"
 import Geocode from "react-geocode";
 import Config from "./Config/Config";
+import { GoogleApiWrapper } from 'google-maps-react';
 axios.defaults.headers.common['Authorization'] = Config.yelpApiKey;
-Geocode.setApiKey(Config.googleApiKey);
 
 class App extends Component {
     constructor(props) {
@@ -93,4 +93,6 @@ class App extends Component {
     }
 }
 
-export default App;
+export default GoogleApiWrapper({
+    apiKey: Config.googleApiKey
+})(App);
