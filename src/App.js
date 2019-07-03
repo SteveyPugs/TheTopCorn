@@ -7,8 +7,6 @@ import axios from "axios"
 import Geocode from "react-geocode";
 import Config from "./Config/Config";
 axios.defaults.headers.common['Authorization'] = Config.yelpApiKey;
-Geocode.setApiKey(Config.googleApiKey);
-Geocode.enableDebug();
 
 class App extends Component {
     constructor(props) {
@@ -52,6 +50,8 @@ class App extends Component {
         } else {
             const locationAPI = (window.navigator && window.navigator.geolocation)
             locationAPI.getCurrentPosition((position) => {
+                Geocode.setApiKey(Config.googleApiKey);
+                Geocode.enableDebug();
                 Geocode.fromLatLng(position.coords.latitude, position.coords.longitude).then(response => {
                     const address = response.results[0].formatted_address;
                     axios.get(Config.corsBaseUrl + "https://api.yelp.com/v3/businesses/search?location=" + address + "&categories=popcorn&limit=" + this.state.limit + "&offset=" + this.state.offset + "&radius=" + this.state.radius).then(function(response){
