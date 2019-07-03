@@ -7,6 +7,7 @@ import axios from "axios"
 import Geocode from "react-geocode";
 import Config from "./Config/Config";
 axios.defaults.headers.common['Authorization'] = Config.yelpApiKey;
+Geocode.setApiKey(Config.googleApiKey);
 
 class App extends Component {
     constructor(props) {
